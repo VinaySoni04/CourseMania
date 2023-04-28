@@ -1,0 +1,70 @@
+For practice of CRUD operations and their simple implementations
+
+
+package com.coursemaniabackend.springrestapi.services;
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import com.coursemaniabackend.springrestapi.entities.Course;
+
+@Service
+public class CourseServiceImplementation implements CourseService {
+	
+	List<Course> list;
+	
+	public CourseServiceImplementation() {
+		list=new ArrayList<>();
+		list.add(new Course(126,"Java Core Course","This course teaches you java from scratch to advance",1299));
+		list.add(new Course(135,"Python Core Course","This course teaches you python from scratch to advance",1499));
+	}
+	
+	@Override
+	public List<Course> getCourses() {
+		return list;
+	}
+	
+	@Override
+	public Course getCourse(long courseId) {
+		Course c=null; // This variable is used to store the course
+		// Traversing the list to get the course of given id
+		for(Course course:list) {
+			if(course.getId()==courseId) {
+				c=course;	
+				break;
+			}
+		}
+		return c;
+	}
+
+	@Override
+	public Course addCourse(Course course) {
+		list.add(course); // Adding course in list
+		return course;
+	}
+
+	@Override
+	public Course deleteCourse(long courseId) {
+		Course c=null; 
+		for(Course course:list) {
+			if(course.getId()==courseId) {
+				list.remove(course); // Removing course whose id is matches with given id
+				c=course;	
+				break;
+			}
+		}
+		return c;
+	}
+
+	@Override
+	public Course updateCourse(Course updateCourse) {
+		list.forEach(e ->{
+			if(e.getId()==updateCourse.getId()) {
+				e.setName(updateCourse.getName());
+				e.setDescription(updateCourse.getDescription());
+				e.setPrice(updateCourse.getPrice());
+			}
+		});
+		return updateCourse;
+	}
+}
